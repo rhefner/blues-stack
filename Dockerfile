@@ -49,4 +49,11 @@ COPY --from=build /myapp/build /myapp/build
 COPY --from=build /myapp/public /myapp/public
 ADD . .
 
+RUN mkdir /.npm && \
+    chgrp -R 0 /myapp /.npm && \
+    chmod -R g=u /myapp /.npm && \
+    chown -R 1001:0 /myapp /.npm && \
+    chmod g=u /etc/passwd
+USER 1001
+
 CMD ["npm", "start"]
